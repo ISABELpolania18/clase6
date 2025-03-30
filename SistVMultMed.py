@@ -20,6 +20,7 @@ class Medicamento:
                 return True
         #solo luego de haber recorrido todo el ciclo se retorna False
         return False
+    
         
 class Mascota:
     
@@ -106,6 +107,19 @@ class sistemaV:
         if historia in self.__DictFelinos:
             self.__DictFelinos.pop(historia)
             return True
+    
+    def eliminarMedicamento(self, historia, MedicBorrar):
+        if historia in self.__DictCaninos:
+            mascota = self.__DictCaninos[historia]
+            lista = mascota.verLista_Medicamentos() #Obtengo la lista de medicamentos de la mascota, sus objetos de la clase Medicamento
+            for medicamento in lista: #medicamento en un objeto clase Medicamento
+                if medicamento.verNombre() == MedicBorrar:
+                    lista.pop(lista.index(medicamento))
+                    #Al pop hay que pasarle una posición específica
+                    #lista.index(medicamento) busca la posición del medicamento en esa lista
+                    return True
+
+        return None
 
 def main():
     servicio_hospitalario = sistemaV()
@@ -117,7 +131,8 @@ def main():
                        \n3- Ver número de mascotas en el servicio 
                        \n4- Ver medicamentos que se están administrando
                        \n5- Eliminar mascota 
-                       \n6- Salir 
+                       \n6- Eliminar medicamento 
+                       \n7- Salir 
                        \nUsted ingresó la opción: ''' ))
         if menu==1: # Ingresar una mascota 
             if servicio_hospitalario.verNumeroMascotas() >= 10:
@@ -218,8 +233,17 @@ def main():
                 print("Mascota eliminada del sistema con exito")
             else:
                 print("No se ha podido eliminar la mascota")
+
+        elif menu == 6: #Eliminar medicamento
+            historia = int(input("Ingrese la historia clínica de la mascota: "))
+            mediBorrar = input("Ingrese nombre del medicamento a eliminar: ")
+            resultado = servicio_hospitalario.eliminarMedicamento(historia, mediBorrar)
+            if resultado ==True:
+                print("Medicamento eliminado con éxito")
+            else:
+                print("No se ha podido eliminar medicamento")
         
-        elif menu==6:
+        elif menu==7:
             print("Usted ha salido del sistema de servicio de hospitalización...")
             break
         
