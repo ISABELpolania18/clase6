@@ -1,3 +1,4 @@
+import datetime
 class Medicamento:
     def __init__(self):
         self.__nombre = "" 
@@ -39,7 +40,7 @@ class Mascota:
     def verPeso(self):
         return self.__peso
     def verFecha(self):
-        return self.__fecha_ingreso
+        return self.__fecha_ingreso.strftime("%d/%m/%Y")
     def verLista_Medicamentos(self):
         return self.__lista_medicamentos 
             
@@ -128,7 +129,34 @@ def main():
                 nombre=input("Ingrese el nombre de la mascota: ")
                 tipo=input("Ingrese el tipo de mascota (felino o canino): ").strip().lower()
                 peso=int(input("Ingrese el peso de la mascota: "))
-                fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
+                print("Va a ingresar los datos de dia, mes y año: ")
+
+                while True:
+                    dia = int(input("Ingrese día (en número): "))
+                    if 1<=dia <= 31:
+                        break
+                    else:
+                        print("Ha ingresado un número incorrecto, intente de nuevo")
+                        continue
+
+                while True:
+                    mes = int(input("Ingrese mes (en número): "))
+                    if 1 <= mes <= 12:
+                        break
+                    else: 
+                        print("Ha ingresado un número incorrecto, intente de nuevo")
+                        continue
+
+                while True:
+                    año = int(input("Ingrese año (en número): "))
+                    if año <= 2025:
+                        break
+                    else:
+                        print("Ha ingresado un número incorrecto, intente de nuevo")
+                        continue
+
+                fecha = datetime.datetime(año, mes, dia)
+
                 nm=int(input("Ingrese cantidad de medicamentos: "))
                 lista_med=[]
 
