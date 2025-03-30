@@ -12,6 +12,13 @@ class Medicamento:
         self.__nombre = med 
     def asignarDosis(self,med):
         self.__dosis = med 
+
+    def verificarMedicamento(self, lista, medic):
+        for m in lista:
+            if medic.verNombre() == m.verNombre():
+                return True
+        #solo luego de haber recorrido todo el ciclo se retorna False
+        return False
         
 class Mascota:
     
@@ -59,6 +66,7 @@ class sistemaV:
                 return True
         #solo luego de haber recorrido todo el ciclo se retorna False
         return False
+        
         
     def verNumeroMascotas(self):
         return len(self.__lista_mascotas) 
@@ -120,7 +128,13 @@ def main():
                     medicamento = Medicamento()
                     medicamento.asignarNombre(nombre_medicamentos)
                     medicamento.asignarDosis(dosis)
-                    lista_med.append(medicamento)
+                    
+                    if medicamento.verificarMedicamento(lista_med, medicamento) == True:
+                        print("Ya existe un medicamento con ese nombre, no se puede agregar")
+                        continue #salta a la siguiente iteración del bucle sin agregar el medicamento:
+                    else:
+                        lista_med.append(medicamento)
+                    
 
                 mas= Mascota()
                 mas.asignarNombre(nombre)
@@ -175,6 +189,7 @@ def main():
 
 if __name__=='__main__':
     main()
+   
 
 
 
