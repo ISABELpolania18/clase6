@@ -59,6 +59,8 @@ class Mascota:
 class sistemaV:
     def __init__(self):
         self.__lista_mascotas = []
+        self.__DictCaninos = {}
+        self.__DictFelinos = {}
     
     def verificarExiste(self,historia):
         for m in self.__lista_mascotas:
@@ -69,32 +71,40 @@ class sistemaV:
         
         
     def verNumeroMascotas(self):
-        return len(self.__lista_mascotas) 
+        return len(self.__DictCaninos) + len(self.__DictFelinos)
     
     def ingresarMascota(self,mascota):
         self.__lista_mascotas.append(mascota) 
+        if mascota.verTipo() == "canino":
+            self.__DictCaninos[mascota.verHistoria()] = mascota
+        elif mascota.verTipo == "felino":
+            self.__DictFelinos[mascota.verHistoria()] = mascota
+
    
 
     def verFechaIngreso(self,historia):
         #busco la mascota y devuelvo el atributo solicitado
-        for masc in self.__lista_mascotas:
-            if historia == masc.verHistoria():
-                return masc.verFecha() 
+        if historia in self.__DictCaninos:
+            return self.__DictCaninos[historia].verFecha()
+        elif historia in self.__DictFelinos:
+            return self.__DictFelinos[historia]. verFecha()
         return None
 
     def verMedicamento(self,historia):
         #busco la mascota y devuelvo el atributo solicitado
-        for masc in self.__lista_mascotas:
-            if historia == masc.verHistoria():
-                return masc.verLista_Medicamentos() 
+        if historia in self.__DictCaninos:
+            return self.__DictCaninos[historia].verLista_Medicamentos()
+        if historia in self.__DictFelinos:
+            return self.__DictFelinos[historia].verLista_Medicamentos()
         return None
     
     def eliminarMascota(self, historia):
-        for masc in self.__lista_mascotas:
-            if historia == masc.verHistoria():
-                self.__lista_mascotas.remove(masc)  #opcion con el pop
-                return True  #eliminado con exito
-        return False 
+        if historia in self.__DictCaninos:
+            self.__DictCaninos.pop(historia)
+            return True
+        if historia in self.__DictFelinos:
+            self.__DictFelinos.pop(historia)
+            return True
 
 def main():
     servicio_hospitalario = sistemaV()
@@ -116,7 +126,7 @@ def main():
             #   verificacion=servicio_hospitalario.verDatosPaciente(historia)
             if servicio_hospitalario.verificarExiste(historia) == False:
                 nombre=input("Ingrese el nombre de la mascota: ")
-                tipo=input("Ingrese el tipo de mascota (felino o canino): ")
+                tipo=input("Ingrese el tipo de mascota (felino o canino): ").strip().lower()
                 peso=int(input("Ingrese el peso de la mascota: "))
                 fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
                 nm=int(input("Ingrese cantidad de medicamentos: "))
@@ -135,7 +145,6 @@ def main():
                     else:
                         lista_med.append(medicamento)
                     
-
                 mas= Mascota()
                 mas.asignarNombre(nombre)
                 mas.asignarHistoria(historia)
@@ -144,9 +153,11 @@ def main():
                 mas.asignarFecha(fecha)
                 mas.asignarLista_Medicamentos(lista_med)
                 servicio_hospitalario.ingresarMascota(mas)
-
+               
             else:
                 print("Ya existe la mascota con el numero de histoira clinica")
+
+            
 
         elif menu==2: # Ver fecha de ingreso
             q = int(input("Ingrese la historia clínica de la mascota: "))
